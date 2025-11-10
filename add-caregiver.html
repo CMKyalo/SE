@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Caregiver - NestCare</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Add Caregiver</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="add-child.html">Add Child</a>
+      <a href="view-children.html">View Children</a>
+      <a href="add-caregiver.html">Add Caregiver</a>
+      <a href="view-caregivers.html">View Caregivers</a>
+    </nav>
+  </header>
+
+  <section class="content">
+    <h2>Enter Caregiver Details</h2>
+    <form id="caregiverForm">
+      <input type="text" id="caregiverName" placeholder="Full Name" required>
+      <input type="number" id="caregiverAge" placeholder="Age" required>
+      <input type="text" id="caregiverGender" placeholder="Gender" required>
+      <input type="text" id="caregiverPhone" placeholder="Phone Number" required>
+      <textarea id="caregiverBio" placeholder="Short Bio" required></textarea>
+      <button type="submit">Add Caregiver</button>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
