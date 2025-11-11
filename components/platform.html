@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NestCare - Foster Care Platform</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    /* Header & Navigation */
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .btn {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: white;
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+    }
+    
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      margin-bottom: 3rem;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.3rem;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-card h3 {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-card p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    
+    /* Forms */
+    .form-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 4rem;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .card-content h3 {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    
+    .card-content p {
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-actions {
+      padding: 1rem 1.5rem;
+      background: #f5f5f5;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+    
+    .btn-small {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    tr:hover {
+      background: #f9f9f9;
+    }
+    
+    /* Status Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .badge-success {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .badge-warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .badge-danger {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .badge-info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    /* Alert Messages */
+    .alert {
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .alert-info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    
+    /* Payment Section */
+    .payment-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+    .payment-box h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .payment-amount {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+    
+    /* Filters */
+    .filters {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .filter-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      align-items: end;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        🏠 NestCare
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li id="navDashboard" class="hidden"><a href="#" onclick="showPage('dashboard')">Dashboard</a></li>
+        <li id="navChildren" class="hidden"><a href="#" onclick="showPage('children')">Children</a></li>
+        <li id="navApplicants" class="hidden"><a href="#" onclick="showPage('applicants')">Applicants</a></li>
+        <li id="navReports" class="hidden"><a href="#" onclick="showPage('reports')">Reports</a></li>
+      </ul>
+      <div class="user-info">
+        <button class="btn btn-primary" id="loginBtn" onclick="showLogin()">Login</button>
+        <div id="userMenu" class="hidden">
+          <span id="userName"></span>
+          <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Home Page -->
+    <div id="homePage" class="page">
+      <div class="hero">
+        <h1>Welcome to NestCare</h1>
+        <p>A secure digital platform connecting vulnerable children with loving families through transparent and traceable foster care services.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+          <button class="btn btn-primary" onclick="showRegister('foster')">Become a Foster Parent</button>
+          <button class="btn btn-secondary" onclick="showRegister('home')">Register Children's Home</button>
+        </div>
+      </div>
+
+      <div style="background: white; padding: 3rem 2rem; border-radius: 10px; margin-top: 2rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">How It Works</h2>
+        <div class="dashboard">
+          <div class="stat-card">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+            <h4>1. Register</h4>
+            <p>Create your account as a foster applicant or children's home</p>
+          </div>
+          <div class="stat-card">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+            <h4>2. Verification</h4>
+            <p>Complete background checks and pay processing fee</p>
+          </div>
+          <div class="stat-card">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">👶</div>
+            <h4>3. Browse</h4>
+            <p>View profiles of children available for placement</p>
+          </div>
+          <div class="stat-card">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">❤️</div>
+            <h4>4. Connect</h4>
+            <p>Express interest and start the placement process</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Login to NestCare</h2>
+          <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+        </div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" required>
+          </div>
+          <div class="form-group">
+            <label>Login As</label>
+            <select id="loginRole" required>
+              <option value="">Select Role</option>
+              <option value="foster_applicant">Foster Applicant</option>
+              <option value="childrens_home">Children's Home</option>
+              <option value="social_worker">Social Worker</option>
+              <option value="gov_officer">Government Officer</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="registerTitle">Register</h2>
+          <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+        </div>
+        <form onsubmit="handleRegister(event)">
+          <div id="fosterForm" class="hidden">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name *</label>
+                <input type="text" id="fosterFirstName">
+              </div>
+              <div class="form-group">
+                <label>Last Name *</label>
+                <input type="text" id="fosterLastName">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>National ID *</label>
+                <input type="text" id="fosterNationalId">
+              </div>
+              <div class="form-group">
+                <label>Date of Birth *</label>
+                <input type="date" id="fosterDOB">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="fosterEmail">
+              </div>
+              <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="fosterPhone">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>County *</label>
+              <select id="fosterCounty">
+                <option>Nairobi</option>
+                <option>Mombasa</option>
+                <option>Kisumu</option>
+                <option>Nakuru</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Marital Status *</label>
+              <select id="fosterMarital">
+                <option>Single</option>
+                <option>Married</option>
+                <option>Divorced</option>
+                <option>Widowed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Occupation</label>
+              <input type="text" id="fosterOccupation">
+            </div>
+            <div class="form-group">
+              <label>Why do you want to become a foster parent? *</label>
+              <textarea id="fosterMotivation"></textarea>
+            </div>
+          </div>
+
+          <div id="homeForm" class="hidden">
+            <div class="form-group">
+              <label>Home Name *</label>
+              <input type="text" id="homeName">
+            </div>
+            <div class="form-group">
+              <label>Registration Number *</label>
+              <input type="text" id="homeRegNumber">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="homeEmail">
+              </div>
+              <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="homePhone">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>County *</label>
+                <select id="homeCounty">
+                  <option>Nairobi</option>
+                  <option>Mombasa</option>
+                  <option>Kisumu</option>
+                  <option>Nakuru</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Capacity *</label>
+                <input type="number" id="homeCapacity">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Physical Location *</label>
+              <textarea id="homeLocation"></textarea>
+            </div>
+            <div class="form-group">
+              <label>License Expiry Date *</label>
+              <input type="date" id="homeLicense">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" id="registerPassword">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page hidden">
+      <h1 style="margin-bottom: 2rem;">Dashboard</h1>
+      <div class="dashboard" id="dashboardStats"></div>
+      
+      <div id="pendingActions" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Children Page -->
+    <div id="childrenPage" class="page hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Children</h1>
+        <button class="btn btn-primary" id="addChildBtn" onclick="showAddChild()">Add Child</button>
+      </div>
+
+      <div class="filters">
+        <div class="filter-row">
+          <div class="form-group">
+            <label>Age Range</label>
+            <select id="filterAge">
+              <option value="">All Ages</option>
+              <option value="0-5">0-5 years</option>
+              <option value="6-12">6-12 years</option>
+              <option value="13-18">13-18 years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="filterGender">
+              <option value="">All</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>County</label>
+            <select id="filterCounty">
+              <option value="">All Counties</option>
+              <option value="Nairobi">Nairobi</option>
+              <option value="Mombasa">Mombasa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="childrenList" class="cards-grid"></div>
+    </div>
+
+    <!-- Applicants Page -->
+    <div id="applicantsPage" class="page hidden">
+      <h1 style="margin-bottom: 2rem;">Foster Applicants</h1>
+      <div class="table-container">
+        <table id="applicantsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>National ID</th>
+              <th>County</th>
+              <th>Application Date</th>
+              <th>Background Check</th>
+              <th>Payment</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="applicantsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Reports Page -->
+    <div id="reportsPage" class="page hidden">
+      <h1 style="margin-bottom: 2rem;">Compliance Reports</h1>
+      <div class="form-section">
+        <h3>Generate Report</h3>
+        <form onsubmit="generateReport(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Report Type</label>
+              <select id="reportType">
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="annual">Annual</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Period Start</label>
+              <input type="date" id="reportStart" required>
+            </div>
+            <div class="form-group">
+              <label>Period End</label>
+              <input type="date" id="reportEnd" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Generate Report</button>
+        </form>
+      </div>
+
+      <div id="reportResults" style="margin-top: 2rem;"></div>
+    </div>
+  </div>
+
+  <script>
+   // Simulated database (in production, this would be API calls)
+    let currentUser = null;
+    let children = [
+      {id: 1, firstName: 'Emma', lastName: 'Johnson', age: 5, gender: 'Female', county: 'Nairobi', bio: 'Cheerful and energetic girl', status: 'available', home: 'Hope Center'},
+      {id: 2, firstName: 'Michael', lastName: 'Ochieng', age: 8, gender: 'Male', county: 'Kisumu', bio: 'Intelligent boy who loves reading', status: 'available', home: 'Sunshine Home'},
+      {id: 3, firstName: 'Grace', lastName: 'Wanjiru', age: 3, gender: 'Female', county: 'Nakuru', bio: 'Sweet toddler who loves music', status: 'available', home: 'Little Angels'}
+    ];
+    
+    let applicants = [
+      {id: 1, name: 'Sarah Kimani', nationalId: '12345678', county: 'Nairobi', date: '2025-01-15', bgCheck: 'approved', payment: 'paid'},
+      {id: 2, name: 'James Mwangi', nationalId: '87654321', county: 'Mombasa', date: '2025-02-10', bgCheck: 'pending', payment: 'paid'}
+    ];
+
+    // Page Navigation
+    function showPage(pageName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(pageName + 'Page').classList.remove('hidden');
+      
+      if (pageName === 'dashboard' && currentUser) {
+        loadDashboard();
+      } else if (pageName === 'children') {
+        loadChildren();
+      } else if (pageName === 'applicants') {
+        loadApplicants();
+      }
+    }
+
+    // Modal Functions
+    function showLogin() {
+      document.getElementById('loginModal').classList.add('active');
+    }
+
+    function showRegister(type) {
+      document.getElementById('registerModal').classList.add('active');
+      document.getElementById('fosterForm').classList.add('hidden');
+      document.getElementById('homeForm').classList.add('hidden');
+      
+      if (type === 'foster') {
+        document.getElementById('registerTitle').textContent = 'Become a Foster Parent';
+        document.getElementById('fosterForm').classList.remove('hidden');
+      } else {
+        document.getElementById('registerTitle').textContent = "Register Children's Home";
+        document.getElementById('homeForm').classList.remove('hidden');
+      }
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Authentication
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const role = document.getElementById('loginRole').value;
+      
+      // Simulate login
+      currentUser = {
+        name: email.split('@')[0],
+        email: email,
+        role: role
+      };
+      
+      document.getElementById('loginBtn').classList.add('hidden');
+      document.getElementById('userMenu').classList.remove('hidden');
+      document.getElementById('userName').textContent = currentUser.name;
+      
+      // Show relevant navigation
+      document.getElementById('navDashboard').classList.remove('hidden');
+      if (role === 'childrens_home') {
+        document.getElementById('navChildren').classList.remove('hidden');
+      }
+      if (role === 'social_worker' || role === 'gov_officer' || role === 'admin') {
+        document.getElementById('navChildren').classList.remove('hidden');
+        document.getElementById('navApplicants').classList.remove('hidden');
+        document.getElementById('navReports').classList.remove('hidden');
+      }
+      
+      closeModal('loginModal');
+      showPage('dashboard');
+      
+      showAlert('Login successful!', 'success');
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      showAlert('Registration submitted! Awaiting verification.', 'success');
+      closeModal('registerModal');
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('loginBtn').classList.remove('hidden');
+      document.getElementById('userMenu').classList.add('hidden');
+      document.querySelectorAll('#navDashboard, #navChildren, #navApplicants, #navReports').forEach(el => {
+        el.classList.add('hidden');
+      });
+      showPage('home');
+    }
+
+    // Dashboard
+    function loadDashboard() {
+      const statsHTML = `
+        <div class="stat-card">
+          <h3>${children.filter(c => c.status === 'available').length}</h3>
+          <p>Available Children</p>
+        </div>
+        <div class="stat-card">
+          <h3>${applicants.length}</h3>
+          <p>Total Applicants</p>
+        </div>
+        <div class="stat-card">
+          <h3>${applicants.filter(a => a.bgCheck === 'pending').length}</h3>
+          <p>Pending Verifications</p>
+        </div>
+        <div class="stat-card">
+          <h3>15</h3>
+          <p>Active Placements</p>
+        </div>
+      `;
+      document.getElementById('dashboardStats').innerHTML = statsHTML;
+      
+      // Show pending actions based on role
+      let pendingHTML = '<h2>Pending Actions</h2>';
+      if (currentUser.role === 'gov_officer') {
+        pendingHTML += `
+          <div class="table-container" style="margin-top: 1rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Applicant</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${applicants.filter(a => a.bgCheck === 'pending').map(a => `
+                  <tr>
+                    <td>${a.name}</td>
+                    <td>Background Verification</td>
+                    <td>${a.date}</td>
+                    <td><button class="btn btn-small btn-primary" onclick="approveBackground(${a.id})">Review</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } else if (currentUser.role === 'foster_applicant') {
+        pendingHTML += `
+          <div class="payment-box">
+            <h3>Complete Your Application</h3>
+            <p>Application Processing Fee</p>
+            <div class="payment-amount">KES 5,000</div>
+            <p>Pay via M-Pesa to Paybill: 123456</p>
+            <button class="btn btn-primary" onclick="initiatePayment()">Pay Now</button>
+          </div>
+        `;
+      }
+      document.getElementById('pendingActions').innerHTML = pendingHTML;
+    }
+
+    // Children Management
+    function loadChildren() {
+      const canView = currentUser && ['foster_applicant', 'childrens_home', 'social_worker', 'gov_officer', 'admin'].includes(currentUser.role);
+      const canAdd = currentUser && currentUser.role === 'childrens_home';
+      
+      document.getElementById('addChildBtn').classList.toggle('hidden', !canAdd);
+      
+      if (!canView) {
+        document.getElementById('childrenList').innerHTML = `
+          <div class="alert alert-info">
+            Please login and complete verification to view children profiles.
+          </div>
+        `;
+        return;
+      }
+      
+      const filteredChildren = children; // Apply filters here
+      const html = filteredChildren.map(child => `
+        <div class="card">
+          <div class="card-image">👶</div>
+          <div class="card-content">
+            <h3>${child.firstName} ${child.lastName}</h3>
+            <p><strong>Age:</strong> ${child.age} years</p>
+            <p><strong>Gender:</strong> ${child.gender}</p>
+            <p><strong>Location:</strong> ${child.county}</p>
+            <p><strong>Home:</strong> ${child.home}</p>
+            <p>${child.bio}</p>
+            <p><span class="badge badge-success">${child.status}</span></p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-small btn-primary" onclick="viewChildDetails(${child.id})">View Details</button>
+            ${currentUser.role === 'foster_applicant' ? 
+              `<button class="btn btn-small btn-secondary" onclick="expressInterest(${child.id})">Express Interest</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('childrenList').innerHTML = html || '<p>No children found.</p>';
+    }
+
+    function showAddChild() {
+      // In production, this would open a modal with a form
+      showAlert('Add Child form would open here', 'info');
+    }
+
+    function viewChildDetails(childId) {
+      const child = children.find(c => c.id === childId);
+      if (!child) return;
+      
+      const modal = document.createElement('div');
+      modal.className = 'modal active';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>${child.firstName} ${child.lastName}</h2>
+            <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+          </div>
+          <div class="card-image" style="margin-bottom: 1rem;">👶</div>
+          <p><strong>Age:</strong> ${child.age} years</p>
+          <p><strong>Gender:</strong> ${child.gender}</p>
+          <p><strong>County:</strong> ${child.county}</p>
+          <p><strong>Current Home:</strong> ${child.home}</p>
+          <p><strong>Bio:</strong> ${child.bio}</p>
+          <h3 style="margin-top: 1.5rem;">Health Information</h3>
+          <p>Blood Type: O+</p>
+          <p>Allergies: None known</p>
+          <p>Vaccinations: Up to date</p>
+          <h3 style="margin-top: 1.5rem;">Placement History</h3>
+          <p>Admitted: January 2024</p>
+          <p>Reason: Family unable to care for child</p>
+          ${currentUser.role === 'foster_applicant' ? 
+            `<button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="expressInterest(${child.id})">Express Interest</button>` : ''}
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function expressInterest(childId) {
+      const child = children.find(c => c.id === childId);
+      if (confirm(`Express interest in adopting ${child.firstName}?`)) {
+        showAlert('Interest submitted! A social worker will contact you soon.', 'success');
+        document.querySelectorAll('.modal').forEach(m => m.remove());
+      }
+    }
+
+    function applyFilters() {
+      loadChildren();
+    }
+
+    // Applicants Management
+    function loadApplicants() {
+      const html = applicants.map(a => `
+        <tr>
+          <td>${a.name}</td>
+          <td>${a.nationalId}</td>
+          <td>${a.county}</td>
+          <td>${a.date}</td>
+          <td><span class="badge ${a.bgCheck === 'approved' ? 'badge-success' : 'badge-warning'}">${a.bgCheck}</span></td>
+          <td><span class="badge ${a.payment === 'paid' ? 'badge-success' : 'badge-danger'}">${a.payment}</span></td>
+          <td>
+            <button class="btn btn-small btn-primary" onclick="viewApplicant(${a.id})">View</button>
+            ${a.bgCheck === 'pending' ? `<button class="btn btn-small btn-secondary" onclick="approveBackground(${a.id})">Approve</button>` : ''}
+          </td>
+        </tr>
+      `).join('');
+      document.getElementById('applicantsTableBody').innerHTML = html;
+    }
+
+    function viewApplicant(id) {
+      const applicant = applicants.find(a => a.id === id);
+      showAlert(`Viewing details for ${applicant.name}`, 'info');
+    }
+
+    function approveBackground(id) {
+      if (confirm('Approve this applicant\'s background check?')) {
+        const applicant = applicants.find(a => a.id === id);
+        applicant.bgCheck = 'approved';
+        showAlert('Background check approved!', 'success');
+        loadApplicants();
+        loadDashboard();
+      }
+    }
+
+    // Payment
+    function initiatePayment() {
+      const modal = document.createElement('div');
+      modal.className = 'modal active';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>M-Pesa Payment</h2>
+            <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+          </div>
+          <form onsubmit="processPayment(event)">
+            <div class="payment-box" style="background: white; color: #667eea; border: 2px solid #667eea;">
+              <h3>Amount: KES 5,000</h3>
+            </div>
+            <div class="form-group">
+              <label>M-Pesa Phone Number</label>
+              <input type="tel" id="paymentPhone" placeholder="254712345678" required>
+            </div>
+            <div class="alert alert-info">
+              You will receive an M-Pesa prompt on your phone. Enter your PIN to complete payment.
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Payment Request</button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function processPayment(e) {
+      e.preventDefault();
+      showAlert('Payment request sent! Please check your phone for M-Pesa prompt.', 'success');
+      setTimeout(() => {
+        showAlert('Payment successful! Your application is now being processed.', 'success');
+        document.querySelectorAll('.modal').forEach(m => m.remove());
+        loadDashboard();
+      }, 3000);
+    }
+
+    // Reports
+    function generateReport(e) {
+      e.preventDefault();
+      const type = document.getElementById('reportType').value;
+      const start = document.getElementById('reportStart').value;
+      const end = document.getElementById('reportEnd').value;
+      
+      const reportHTML = `
+        <div class="form-section">
+          <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Compliance Report</h2>
+          <p><strong>Period:</strong> ${start} to ${end}</p>
+          <div class="dashboard" style="margin: 2rem 0;">
+            <div class="stat-card">
+              <h3>${children.length}</h3>
+              <p>Total Children</p>
+            </div>
+            <div class="stat-card">
+              <h3>${children.filter(c => c.status === 'available').length}</h3>
+              <p>Available</p>
+            </div>
+            <div class="stat-card">
+              <h3>${applicants.filter(a => a.bgCheck === 'approved').length}</h3>
+              <p>Verified Applicants</p>
+            </div>
+            <div class="stat-card">
+              <h3>15</h3>
+              <p>Placements Made</p>
+            </div>
+          </div>
+          <h3>Summary</h3>
+          <p>During this period, ${applicants.length} new applications were received and processed. ${children.filter(c => c.status === 'available').length} children remain available for placement. All welfare visits were conducted on schedule, with no major compliance issues identified.</p>
+          <button class="btn btn-primary" onclick="downloadReport()">Download PDF</button>
+        </div>
+      `;
+      document.getElementById('reportResults').innerHTML = reportHTML;
+    }
+
+    function downloadReport() {
+      showAlert('Report downloaded successfully!', 'success');
+    }
+
+    // Utility Functions
+    function showAlert(message, type) {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'error' : 'info'}`;
+      alert.textContent = message;
+      alert.style.position = 'fixed';
+      alert.style.top = '100px';
+      alert.style.right = '20px';
+      alert.style.zIndex = '9999';
+      alert.style.maxWidth = '400px';
+      document.body.appendChild(alert);
+      setTimeout(() => alert.remove(), 4000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage('home');
+    });
+  </script>
+</body>
+</html>
